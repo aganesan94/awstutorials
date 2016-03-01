@@ -49,10 +49,7 @@ public class OnBoardIPRestrictionsInBulkToAWSWAF {
 
 		AWSWAF client = new AWSWAFClient(awsCredentials);
 		client.setRegion(Region.getRegion(Regions.US_EAST_1));
-		//retrieveExistingIPRestrictions(client);
-		// createIPSetRequest(client, IP_RESTRICTION_NAME);
-		 deleteExistingIPRestrictions(client);
-		// insertIPRestrictionsToWAF(client);
+		
 	}
 
 	private static GetIPSetResult retrieveExistingIPRestrictions(AWSWAF client) {

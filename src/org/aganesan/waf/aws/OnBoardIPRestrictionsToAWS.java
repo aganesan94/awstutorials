@@ -51,7 +51,7 @@ public class OnBoardIPRestrictionsToAWS {
 		client.setRegion(Region.getRegion(Regions.US_EAST_1));
 		// retrieveExistingIPRestrictions(client);
 		// createIPSetRequest(client, IP_RESTRICTION_NAME);
-		deleteExistingIPRestrictions(client);
+		// deleteExistingIPRestrictions(client);
 		// insertIPRestrictionsToWAF(client);
 	}
 
