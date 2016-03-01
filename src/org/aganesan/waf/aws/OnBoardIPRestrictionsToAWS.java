@@ -23,8 +23,18 @@ import com.amazonaws.services.waf.model.IPSetDescriptorType;
 import com.amazonaws.services.waf.model.IPSetUpdate;
 import com.amazonaws.services.waf.model.UpdateIPSetRequest;
 
-public class AWFWAFClient {
-
+/**
+ * This API is used to onboard IPRestrictions to WAF set up.
+ * 
+ * @author AGanesan
+ *
+ */
+public class OnBoardIPRestrictionsToAWS {
+	
+	
+	private static final String IP_SET_ID = "3c8d3d3f-19c6-42c3-a58d-bbba9d568a6b";
+	private static final String CIDR_FORMATTED_IP = "43.245.100.1/32";
+	
 	public static void main(String args[]) {
 
 		AWSCredentials awsCredentials = null;
@@ -39,13 +49,12 @@ public class AWFWAFClient {
 		AWSWAF client = new AWSWAFClient(awsCredentials);
 		client.setRegion(Region.getRegion(Regions.US_EAST_1));
 		GetIPSetRequest ipSetRequest = new GetIPSetRequest();
-		ipSetRequest.setIPSetId("3c8d3d3f-19c6-42c3-a58d-bbba9d568a6b");
+		ipSetRequest.setIPSetId(IP_SET_ID);
 		GetIPSetResult ipSetResult = client.getIPSet(ipSetRequest);
 		System.out.println(ipSetResult);
-		// createIPSetRequest(client, name);
-		IPSetDescriptor ipSetDescriptor = new IPSetDescriptor();
-		ipSetDescriptor.setType(IPSetDescriptorType.IPV4);
-		ipSetDescriptor.setValue("43.245.100.1/32");
+		//createIPSetRequest(client, name);
+		
+		IPSetDescriptor ipSetDescriptor = createIPDescriptor(CIDR_FORMATTED_IP);
 		Collection<IPSetDescriptor> ipSetDescriptors = new ArrayList<>();
 		ipSetDescriptors.add(ipSetDescriptor);
 
@@ -57,14 +66,24 @@ public class AWFWAFClient {
 		Collection<IPSetUpdate> updates = new ArrayList<IPSetUpdate>();
 		updates.add(ipSetUpdate);
 		updateIPSetRequest.setUpdates(updates);
+		
 		GetChangeTokenResult changeTokenResult = client.getChangeToken(new GetChangeTokenRequest());
 		updateIPSetRequest.setChangeToken(changeTokenResult.getChangeToken());
-		updateIPSetRequest.setIPSetId("3c8d3d3f-19c6-42c3-a58d-bbba9d568a6b");
+		updateIPSetRequest.setIPSetId(IP_SET_ID);
 		client.updateIPSet(updateIPSetRequest);
-		
-
 	}
 
+
+
+	private static IPSetDescriptor createIPDescriptor(String ipAddressInCIDRFormat) {
+		IPSetDescriptor ipSetDescriptor = new IPSetDescriptor();
+		ipSetDescriptor.setType(IPSetDescriptorType.IPV4);
+		ipSetDescriptor.setValue(ipAddressInCIDRFormat);
+		return ipSetDescriptor;
+	}
+
+	
+	
 	private static void createIPSetRequest(AWSWAF client, String name) {
 		CreateIPSetRequest ipSetRequest = new CreateIPSetRequest();
 		GetChangeTokenResult changeTokenResult = client.getChangeToken(new GetChangeTokenRequest());
