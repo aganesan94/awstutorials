@@ -30,7 +30,7 @@ import com.amazonaws.services.waf.model.UpdateIPSetRequest;
  * @author AGanesan
  *
  */
-public class OnBoardIPRestrictionsToAWS {
+public class OnBoardIPRestrictionsInBulkToAWSWAF {
 
 	private static final String IP_SET_ID = "3c8d3d3f-19c6-42c3-a58d-bbba9d568a6b";
 	private static final String CIDR_FORMATTED_IP = "43.245.100.1/32";
@@ -49,9 +49,9 @@ public class OnBoardIPRestrictionsToAWS {
 
 		AWSWAF client = new AWSWAFClient(awsCredentials);
 		client.setRegion(Region.getRegion(Regions.US_EAST_1));
-		// retrieveExistingIPRestrictions(client);
+		//retrieveExistingIPRestrictions(client);
 		// createIPSetRequest(client, IP_RESTRICTION_NAME);
-		deleteExistingIPRestrictions(client);
+		 deleteExistingIPRestrictions(client);
 		// insertIPRestrictionsToWAF(client);
 	}
 
